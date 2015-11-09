@@ -23,7 +23,7 @@ export class AccountComponent {
     private account: Account;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
-                  .subscribe(account => this.account = account);
+                  .subscribe((account : Account) => this.account = account);
 
     }
 }

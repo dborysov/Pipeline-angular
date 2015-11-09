@@ -30,6 +30,6 @@ export class AccountsComponent {
     private accounts: Account[] = [];
     constructor(gitService: GitService) {
         gitService.getUsers()
-                  .subscribe(accounts => this.accounts = accounts);
+                  .subscribe((accounts : Account[]) => this.accounts = accounts);
     }
 }
