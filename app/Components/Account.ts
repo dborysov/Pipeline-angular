@@ -1,5 +1,5 @@
-import {Component, View} from 'angular2/angular2';
-import {RouteParams} from 'angular2/router';
+import {Component, View, NgIf} from 'angular2/angular2';
+import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 
 @Component({
@@ -7,10 +7,19 @@ import {GitService} from '../Services/GitService';
     bindings: [GitService]
 })
 @View({
-    template: '<div>Account: {{acc}}</div>'
+    directives: [NgIf, ROUTER_DIRECTIVES],
+    template: `
+        <div *ng-if="account">
+            <button class="btn btn-default" [router-link]="['/Accounts']">Back</button><br />
+            <p class="margin-std">
+                <img width="100" src="{{account.avatar_url}}" alt="avatar">
+                <a href="{{account.html_url}}">{{account.login}}</a> ({{account.email}})
+            </p>
+        </div>
+    `
 })
 export class AccountComponent {
-    account: string;
+    account: any;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
                   .subscribe(account => this.account = account);

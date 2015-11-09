@@ -9,14 +9,18 @@ import {AccountsComponent} from './Components/Accounts';
     selector: 'app'
 })
 @View({
-    template: '<router-outlet></router-outlet>',
+    template: `
+        <div class="col-md-12">
+            <h1 class="page-header text-center">Accounts</h1>
+        </div>
+        <router-outlet></router-outlet>
+    `,
     directives: [RouterOutlet]
 })
 @RouteConfig([
     { path: '/', component: AccountsComponent, as: 'Accounts' },
     { path: '/account/:login', component: AccountComponent, as: 'Account' }
 ])
-class AppComponent {
-}
+class AppComponent {}
 
 bootstrap(AppComponent, [HTTP_BINDINGS, ROUTER_PROVIDERS, bind(LocationStrategy).toClass(HashLocationStrategy)]);
