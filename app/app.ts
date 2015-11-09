@@ -12,8 +12,8 @@ import {AccountsComponent} from './Components/Accounts';
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
+            <router-outlet></router-outlet>
         </div>
-        <router-outlet></router-outlet>
     `,
     directives: [RouterOutlet]
 })

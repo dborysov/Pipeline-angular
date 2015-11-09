@@ -18,8 +18,8 @@ import {GitService} from '../Services/GitService';
             </thead>
             <tbody>
                 <tr *ng-for="#account of accounts" [router-link]="['/Account', {login: account.login}]">
-                    <td><img width="50" src="{{account.avatar_url}}" alt="avatar"><td>
-                    <td>{{account.login}}<td>
+                    <td><img width="50" src="{{account.avatar_url}}" alt="avatar"></td>
+                    <td>{{account.login}}</td>
                 </tr>
             </tbody>
         </table>

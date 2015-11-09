@@ -3,7 +3,8 @@
 var path = require('path'),
     gulp = require('gulp'),
     ts = require('gulp-typescript'),
-    inject = require('gulp-inject');
+    inject = require('gulp-inject'),
+    sass = require('gulp-sass');
 
 var src = {
     js: {
@@ -13,6 +14,16 @@ var src = {
             './node_modules/angular2/bundles/angular2.dev.js',
             './node_modules/angular2/bundles/router.dev.js',
             './node_modules/angular2/bundles/http.dev.js'
+        ]
+    },
+    css: {
+        lib: [
+            './bower_components/bootstrap/dist/css/bootstrap.min.css'
+        ]
+    },
+    sass: {
+        custom: [
+            './app/Content/Sass/+(*.sass|*.scss)'
         ]
     },
     ts: {
@@ -41,8 +52,13 @@ gulp.task('compile-ts', () =>
     .pipe(gulp.dest(path.join(dest, 'app')))
 );
 
-gulp.task('default', ['compile-ts'], () => {
-    const sources = gulp.src(src.js.lib);
+gulp.task('compile-css', () => 
+    gulp.src(src.sass.custom)
+        .pipe(sass())
+        .pipe(gulp.dest(path.join(dest, '/css'))));
+
+gulp.task('default', ['compile-ts', 'compile-css'], () => {
+    const sources = gulp.src(src.js.lib.concat(src.css.lib).concat(path.join(dest, 'css', '*.css')));
 
     return gulp.src(src.html.main)
         .pipe(inject(sources))
