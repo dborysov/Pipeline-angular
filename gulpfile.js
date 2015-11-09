@@ -4,6 +4,7 @@ var path = require('path'),
     gulp = require('gulp'),
     ts = require('gulp-typescript'),
     inject = require('gulp-inject'),
+    bower = require('gulp-bower'),
     sass = require('gulp-sass');
 
 var src = {
@@ -56,8 +57,12 @@ gulp.task('compile-css', () =>
     gulp.src(src.sass.custom)
         .pipe(sass())
         .pipe(gulp.dest(path.join(dest, '/css'))));
+        
+gulp.task('bower-install', () =>
+    bower()
+)
 
-gulp.task('default', ['compile-ts', 'compile-css'], () => {
+gulp.task('default', ['compile-ts', 'compile-css', 'bower-install'], () => {
     const sources = gulp.src(src.js.lib.concat(src.css.lib).concat(path.join(dest, 'css', '*.css')));
 
     return gulp.src(src.html.main)
@@ -66,5 +71,5 @@ gulp.task('default', ['compile-ts', 'compile-css'], () => {
 });
 
 gulp.task('watch', () =>
-    gulp.watch(src.ts.custom.concat([src.html.main]), ['default'])
+    gulp.watch(src.ts.custom.concat([src.html.main]).concat(src.sass.custom), ['default'])
 )
