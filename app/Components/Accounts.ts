@@ -1,4 +1,4 @@
-import {Component, View, NgIf, NgFor} from 'angular2/angular2';
+import {Component, View, CORE_DIRECTIVES} from 'angular2/angular2';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {Account} from '../Models/Account';
@@ -8,7 +8,7 @@ import {Account} from '../Models/Account';
     bindings: [GitService]
 })
 @View({
-    directives: [NgIf, NgFor, ROUTER_DIRECTIVES],
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
     template: `
         <table class="table table-striped table-hover" *ng-if="accounts && accounts.length">
             <thead>
@@ -27,7 +27,7 @@ import {Account} from '../Models/Account';
     `
 })
 export class AccountsComponent {
-    accounts: Account[] = [];
+    private accounts: Account[] = [];
     constructor(gitService: GitService) {
         gitService.getUsers()
                   .subscribe(accounts => this.accounts = accounts);

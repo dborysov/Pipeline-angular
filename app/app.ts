@@ -1,6 +1,6 @@
-import {FORM_DIRECTIVES, CORE_DIRECTIVES, Component, bootstrap, View, bind} from 'angular2/angular2';
-import {ROUTER_PROVIDERS, RouterOutlet, RouteConfig} from 'angular2/router';
-import {LocationStrategy, HashLocationStrategy} from 'angular2/router';
+import {Component, View, bootstrap, bind} from 'angular2/angular2';
+import {ROUTER_PROVIDERS, RouterOutlet, RouteConfig,
+        LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {HTTP_BINDINGS} from 'angular2/http';
 import {AccountComponent} from './Components/Account';
 import {AccountsComponent} from './Components/Accounts';

@@ -20,7 +20,7 @@ import {Account} from '../Models/Account';
     `
 })
 export class AccountComponent {
-    account: Account;
+    private account: Account;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
                   .subscribe(account => this.account = account);
