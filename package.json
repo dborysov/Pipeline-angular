@@ -1,5 +1,5 @@
 {
-  "name": "pipeline",
+  "name": "pipeline-angularjs-2.0",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/dborysov/Levi9-pipeline-angularjs-2.0/issues"
   },
-  "homepage": "https://github.com/dborysov/Levi9-pipeline-angularjs-2.0#readme"
+  "homepage": "https://github.com/dborysov/Levi9-pipeline-angularjs-2.0#readme",
+  "dependencies": {
+    "angular2": "2.0.0-alpha.44",
+    "gulp": "3.9.0",
+    "gulp-inject": "3.0.0",
+    "gulp-typescript": "2.9.2",
+    "systemjs": "0.19.2",
+    "typescript": "1.6.2"
+  }
 }
