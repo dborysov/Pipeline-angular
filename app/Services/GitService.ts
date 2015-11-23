@@ -5,7 +5,7 @@ import {Account} from '../Models/Account';
 export class GitService {
     private http: Http;
     private baseUrl: string = 'https://api.github.com/users';
-    
+
     constructor(@Inject(Http) http : Http){
         this.http = http;
     }
