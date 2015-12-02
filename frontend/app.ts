@@ -1,9 +1,8 @@
-import {Component, View, bootstrap, bind} from 'angular2/angular2';
-import {ROUTER_PROVIDERS, RouterOutlet, RouteConfig,
-        LocationStrategy, HashLocationStrategy} from 'angular2/router';
-import {HTTP_BINDINGS} from 'angular2/http';
-import {AccountComponent} from './Components/Account';
+import {Component, View, bootstrap, provide} from 'angular2/angular2';
+import {HTTP_PROVIDERS} from 'angular2/http';
+import {ROUTER_PROVIDERS, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {AccountsComponent} from './Components/Accounts';
+import {AccountComponent} from './Components/Account';
 
 @Component({
     selector: 'app'
@@ -23,4 +22,4 @@ import {AccountsComponent} from './Components/Accounts';
 ])
 class AppComponent {}
 
-bootstrap(AppComponent, [HTTP_BINDINGS, ROUTER_PROVIDERS, bind(LocationStrategy).toClass(HashLocationStrategy)]);
+bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy})]);

@@ -1,5 +1,5 @@
 import {Component, View, CORE_DIRECTIVES} from 'angular2/angular2';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {Account} from '../Models/Account';
 
@@ -8,7 +8,7 @@ import {Account} from '../Models/Account';
     bindings: [GitService]
 })
 @View({
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
+    directives: [CORE_DIRECTIVES, RouterLink],
     template: `
         <table class="table table-striped table-hover" *ng-if="accounts && accounts.length">
             <thead>
@@ -30,6 +30,6 @@ export class AccountsComponent {
     private accounts: Account[] = [];
     constructor(gitService: GitService) {
         gitService.getUsers()
-                  .subscribe((accounts : Account[]) => this.accounts = accounts);
+                  .subscribe(accounts => this.accounts = accounts);
     }
 }

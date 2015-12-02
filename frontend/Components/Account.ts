@@ -1,5 +1,5 @@
 import {Component, View, NgIf} from 'angular2/angular2';
-import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteParams, RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {Account} from '../Models/Account';
 
@@ -8,7 +8,7 @@ import {Account} from '../Models/Account';
     bindings: [GitService]
 })
 @View({
-    directives: [NgIf, ROUTER_DIRECTIVES],
+    directives: [NgIf, RouterLink],
     template: `
         <div *ng-if="account">
             <button class="btn btn-default" [router-link]="['/Accounts']">Back</button><br />
@@ -23,7 +23,7 @@ export class AccountComponent {
     private account: Account;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
-                  .subscribe((account : Account) => this.account = account);
+                  .subscribe(account => this.account = account);
 
     }
 }
