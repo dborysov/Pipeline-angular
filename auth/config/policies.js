@@ -20,8 +20,8 @@
 module.exports.policies = {
 
     'UserController': {
-        'find': ['jwtAuth'],
-        '*': false
+        '*': false,
+        'find': ['jwtAuth']
     }
 
   /***************************************************************************
