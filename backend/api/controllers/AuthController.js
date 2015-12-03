@@ -19,25 +19,25 @@ module.exports = {
 
     login: function (req, res) {
         const login = req.body.login,
-              password = req.body.password;
+            password = req.body.password;
 
-        if(!login || !password) {
+        if (!login || !password) {
             return res.status(401).send({
                 message: "Login and password required"
             })
         }
 
-        User.findOneByLogin(login, function(err, foundUser) {
-            if(!foundUser) {
+        User.findOneByLogin(login, function (err, foundUser) {
+            if (!foundUser) {
                 return res.status(401).send({
                     message: "Login or password invalid"
                 })
             }
 
-            bcrypt.compare(password, foundUser.password, function(err, valid) {
-                if(err) return res.status(403);
+            bcrypt.compare(password, foundUser.password, function (err, valid) {
+                if (err) return res.status(403);
 
-                if(!valid){
+                if (!valid) {
                     return res.status(401).send({
                         message: 'Login or password invalid'
                     });
@@ -48,11 +48,11 @@ module.exports = {
         })
     },
 
-    register: function(req, res){
-        const login = req.body.login;
-        const password = req.body.password;
+    register: function (req, res) {
+        const login = req.body.login,
+              password = req.body.password;
 
-        if(!login || !password) {
+        if (!login || !password) {
             return res.status(401).send({
                 message: 'login and password required'
             })
@@ -61,8 +61,14 @@ module.exports = {
         User.create({
             login: login,
             password: password
-        }).exec(function(err, user){
-            if(err) return res.status(403);
+        }).exec(function (err, user) {
+            if (err) {
+                const message = err.invalidAttributes && err.invalidAttributes.login && err.invalidAttributes.login.some(l => l.rule === 'unique')
+                    ? 'User with such login already exists'
+                    : 'Error while creating user';
+                    
+                return res.status(403).send({ message });
+            }
 
             createSendToken(user, res);
         })
