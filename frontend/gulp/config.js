@@ -2,7 +2,7 @@
 
 const baseDir = {
         dest: 'dist',
-        src: 'frontend'
+        src: 'app'
     },
     folderNames = {
         npm: 'node_modules',
