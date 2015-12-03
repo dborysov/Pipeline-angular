@@ -17,6 +17,12 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
+   auth:  {
+       local: {
+           secret: 'secret_local_key'
+       }
+   }
+
   // models: {
   //   connection: 'someMongodbServer'
   // }

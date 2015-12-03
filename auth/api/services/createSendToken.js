@@ -9,7 +9,7 @@ module.exports = function (user, res) {
         exp: moment().add(10, 'days').unix()
     }
 
-    const token = jwt.encode(payload, 'Key');
+    const token = jwt.encode(payload, sails.config.auth.local.secret);
 
     res.status(200).send({
         user: user.toJSON(),

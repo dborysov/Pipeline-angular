@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
     }
 
     const token = req.headers.authorization.split(' ')[1];
-    const payload = jwt.decode(token, "Key");
+    const payload = jwt.decode(token, sails.config.auth.local.secret);
 
     if (!payload.sub) {
         return res.status(401).send({
