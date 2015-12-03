@@ -1,6 +1,7 @@
 'use strict';
 
-const jwt = require('jwt-simple');
+const jwt = require('jwt-simple'),
+      moment = require('moment');
 
 module.exports = function (req, res, next) {
     if (!req.headers || !req.headers.authorization) {
@@ -21,7 +22,7 @@ module.exports = function (req, res, next) {
 
     const payload = jwt.decode(token, sails.config.auth.local.secret);
 
-    if (!payload.sub) {
+    if (!payload.sub || payload.exp < moment().unix()) {
         return res.status(401).send({
             message: 'Authentication failed'
         });
