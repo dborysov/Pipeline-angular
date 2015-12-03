@@ -2,14 +2,23 @@
 
 const jwt = require('jwt-simple');
 
-module.exports = function(req, res, next) {
-    if(!req.headers || !req.headers.authorization) {
+module.exports = function (req, res, next) {
+    if (!req.headers || !req.headers.authorization) {
         return res.status(401).send({
             message: 'Authentication failed'
         });
     }
 
-    const token = req.headers.authorization.split(' ')[1];
+    const authorizationSplitted = req.headers.authorization.split(' '),
+          tokenType = authorizationSplitted[0],
+          token = authorizationSplitted[1];
+
+    if (tokenType !== 'Bearer') {
+        return res.status(401).send({
+            message: 'Authentication failed'
+        })
+    }
+
     const payload = jwt.decode(token, sails.config.auth.local.secret);
 
     if (!payload.sub) {
