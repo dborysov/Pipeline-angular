@@ -19,6 +19,11 @@
 
 module.exports.policies = {
 
+    'UserController': {
+        'find': ['jwtAuth'],
+        '*': false
+    }
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
