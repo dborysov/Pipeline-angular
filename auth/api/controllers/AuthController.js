@@ -11,6 +11,12 @@ const bcrypt = require('bcrypt-nodejs'),
       createSendToken = require('../services/createSendToken');
 
 module.exports = {
+    _config: {
+        actions: false,
+        shortcuts: false,
+        rest: false
+    },
+
     login: function (req, res) {
         const login = req.body.login,
               password = req.body.password;

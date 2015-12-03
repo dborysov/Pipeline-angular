@@ -20,8 +20,8 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/anonymous node/sails user/auth.git"
+    "url": "git://github.com/dborysov/Levi9-pipeline-angularjs-2.0.git"
   },
-  "author": "anonymous node/sails user",
+  "author": "Dmytro Borysov",
   "license": ""
 }
