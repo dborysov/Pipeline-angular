@@ -1,34 +1,44 @@
-import {Component, View, bootstrap, provide} from 'angular2/angular2';
+import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {AccountsComponent} from './Components/Accounts';
 import {AccountComponent} from './Components/Account';
 import {RegisterComponent} from './Components/Register';
 import {LoginComponent} from './Components/Login';
-import {LogoutComponent} from './Components/Logout';
+import {AuthService} from './Services/AuthService';
 
 @Component({
-    selector: 'app'
+    selector: 'app',
+    bindings: [AuthService]
 })
 @View({
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
-            <a class="pull-right" [router-link]="['/Login']">Login</a>&nbsp;
-            <a class="pull-right" [router-link]="['/Logout']">Logout</a>&nbsp;
-            <a class="pull-right" [router-link]="['/Register']">Register</a>
+            <div class="row">
+                <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
+                <a *ng-if="isAuthenticated" class="pull-right margin-std" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a>
+            </div>
             <router-outlet/>
         </div>
     `,
-    directives: [RouterOutlet, RouterLink]
+    directives: [RouterOutlet, RouterLink, NgIf]
 })
 @RouteConfig([
     { path: '/', component: AccountsComponent, as: 'Accounts' },
     { path: '/account/:login', component: AccountComponent, as: 'Account' },
-    { path: '/register', component: RegisterComponent, as: 'Register'},
-    { path: '/login', component: LoginComponent, as: 'Login'},
-    { path: '/logout', component: LogoutComponent, as: 'Logout'}
+    { path: '/register', component: RegisterComponent, as: 'Register' },
+    { path: '/login', component: LoginComponent, as: 'Login' },
 ])
-class AppComponent {}
+class AppComponent {
+    constructor(private authService: AuthService) { }
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy})]);
+    logout(event: Event) {
+        this.authService.logout();
+        event.preventDefault();
+    }
+
+    get isAuthenticated(){return this.authService.isAuthenticated;}
+}
+
+bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);
