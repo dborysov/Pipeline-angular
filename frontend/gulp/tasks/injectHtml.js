@@ -6,7 +6,7 @@ const gulp = require('gulp'),
       htmlmin = require('gulp-html-minifier'),
       config = require('../config');
 
-gulp.task('inject-html', ['bower-install', 'compile-js', 'compile-css', 'copy-libs'], () => {
+gulp.task('inject-html', ['compile-js', 'compile-css', 'copy-libs'], () => {
     const sourceFiles = gulp.src(config.src.libs.map(filePath => path.join(config.folderNames.outputLibs, filePath))
                                                 .concat(config.fileNames.outputJs)
                                                 .concat(path.join(config.folderNames.outputCss, '*.css'))
