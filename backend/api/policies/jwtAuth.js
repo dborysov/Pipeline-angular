@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
         })
     }
 
-    const payload = jwt.decode(token, sails.config.auth.local.secret);
+    const payload = jwt.decode(token, sails.config.auth.local.secret, sails.config.auth.local.jwtSigningAlgorithm);
 
     if (!payload.sub || payload.exp < moment().unix()) {
         return res.status(401).send({

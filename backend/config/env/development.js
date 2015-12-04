@@ -19,7 +19,8 @@ module.exports = {
 
    auth:  {
        local: {
-           secret: 'secret_local_key'
+           secret: 'secret_local_key',
+           jwtSigningAlgorithm: 'HS256'
        }
    }
 
