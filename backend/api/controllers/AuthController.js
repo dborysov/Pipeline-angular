@@ -66,7 +66,7 @@ module.exports = {
                 const message = err.invalidAttributes && err.invalidAttributes.login && err.invalidAttributes.login.some(l => l.rule === 'unique')
                     ? 'User with such login already exists'
                     : 'Error while creating user';
-                    
+
                 return res.status(403).send({ message });
             }
 

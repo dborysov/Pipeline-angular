@@ -31,7 +31,6 @@
     "gulp-uglifycss": "1.0.5",
     "path": "0.12.7",
     "require-dir": "0.3.0",
-    "sails": "0.11.3",
     "tsify": "0.13.1",
     "vinyl-source-stream": "1.1.0"
   }

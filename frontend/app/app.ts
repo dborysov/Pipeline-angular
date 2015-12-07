@@ -19,7 +19,7 @@ import {AuthService} from './Services/AuthService';
                 <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
                 <a *ng-if="isAuthenticated" class="pull-right margin-std" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a>
             </div>
-            <router-outlet/>
+            <router-outlet />
         </div>
     `,
     directives: [RouterOutlet, RouterLink, NgIf]

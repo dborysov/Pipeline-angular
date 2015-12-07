@@ -4,6 +4,7 @@ import {GitService} from '../Services/GitService';
 import {Account} from '../Models/Account';
 
 @Component({
+    selector: 'account',
     bindings: [GitService]
 })
 @View({
