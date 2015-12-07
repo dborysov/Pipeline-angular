@@ -1,7 +1,7 @@
 import {Component, View, CORE_DIRECTIVES} from 'angular2/angular2';
 import {RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
-import {Account} from '../Models/Account';
+import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     selector: 'accounts',
@@ -23,7 +23,7 @@ import {Account} from '../Models/Account';
     `
 })
 export class GitAccountsComponent {
-    private accounts: Account[] = [];
+    private accounts: GitAccount[] = [];
     constructor(gitService: GitService) {
         gitService.getUsers()
                   .subscribe(accounts => this.accounts = accounts);

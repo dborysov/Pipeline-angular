@@ -1,7 +1,7 @@
 import {Component, View, NgIf} from 'angular2/angular2';
 import {RouteParams, RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
-import {Account} from '../Models/Account';
+import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     selector: 'account',
@@ -20,7 +20,7 @@ import {Account} from '../Models/Account';
     `
 })
 export class GitAccountComponent {
-    private account: Account;
+    private account: GitAccount;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
                   .subscribe(account => this.account = account);

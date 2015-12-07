@@ -1,22 +1,36 @@
-import {View, Component, NgIf} from 'angular2/angular2';
+import {View, Component, NgFor} from 'angular2/angular2';
 import {RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {UsersService} from '../Services/UsersService';
+import {IUser} from '../Models/User';
 
 @Component({
     selector: 'account',
     bindings: [UsersService]
 })
 @View({
-    directives: [NgIf, RouterLink],
+    directives: [NgFor, RouterLink],
     template: `
         <button class="btn btn-default" [router-link]="['/Accounts']">Back</button><br />
-        {{users}}
+        <table class="table table-striped table-hover">
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>Registration date</th>
+                <th>Update date</th>
+            </tr>
+            <tr *ng-for="#user of users">
+                <td>{{user.id}}</td>
+                <td>{{user.login}}</td>
+                <td>{{user.createdAt | date}}</td>
+                <td>{{user.updatedAt | date}}</td>
+            </tr>
+        </table>
     `
 })
 export class RegisteredUsersComponent {
-    users: Object = {};
+    users: IUser[] = [];
     constructor(private _usersService: UsersService) {
-        this._usersService.getUsers().then(resp => { this.users = resp.json() })
+        this._usersService.getUsers().then(users => { this.users = users; })
     }
 }

@@ -8,7 +8,7 @@ import {RegisterComponent} from './Components/Register';
 import {LoginComponent} from './Components/Login';
 import {AuthService} from './Services/AuthService';
 import {JwtHttp} from './Services/JwtHttpService';
-import {CurrentUserModel} from './Models/CurrentUserModel';
+import {CurrentUser} from './Models/CurrentUser';
 
 @Component({
     selector: 'app',

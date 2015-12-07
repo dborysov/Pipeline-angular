@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/angular2';
 import {Http, Headers, Response} from 'angular2/http';
 import {UserAuth} from '../Models/UserAuth';
-import {CurrentUserModel} from '../Models/CurrentUserModel';
+import {CurrentUser} from '../Models/CurrentUser';
 
 @Injectable()
 export class AuthService {
@@ -27,10 +27,10 @@ export class AuthService {
         return !!AuthService.currentUserToken;
     }
 
-    static get currentUserInfo(): CurrentUserModel {
+    static get currentUserInfo(): CurrentUser {
         const login = AuthService.decodeToken(AuthService.currentUserToken).login;
 
-        return new CurrentUserModel(login);
+        return new CurrentUser(login);
     }
 
     login(user: UserAuth) {
