@@ -11,18 +11,14 @@ import {Account} from '../Models/Account';
     directives: [CORE_DIRECTIVES, RouterLink],
     template: `
         <table class="table table-striped table-hover" *ng-if="accounts && accounts.length">
-            <thead>
-                <tr>
-                    <th class="col-md-2">Avatar</th>
-                    <th>Login</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ng-for="#account of accounts" [router-link]="['/Account', {login: account.login}]">
-                    <td><img width="50" src="{{account.avatarUrl}}" alt="avatar"></td>
-                    <td>{{account.login}}</td>
-                </tr>
-            </tbody>
+            <tr>
+                <th class="col-md-2">Avatar</th>
+                <th>Login</th>
+            </tr>
+            <tr *ng-for="#account of accounts" [router-link]="['/Account', {login: account.login}]">
+                <td><img width="50" src="{{account.avatarUrl}}" alt="avatar"></td>
+                <td>{{account.login}}</td>
+            </tr>
         </table>
     `
 })

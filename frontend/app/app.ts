@@ -39,8 +39,8 @@ class AppComponent {
         event.preventDefault();
     }
 
-    get isAuthenticated() { return this.authService.isAuthenticated; }
-    get currentlyAuthenticatedUser() { return this.authService.currentUserInfo; }
+    get isAuthenticated() { return AuthService.isAuthenticated; }
+    get currentlyAuthenticatedUser() { return AuthService.currentUserInfo; }
 }
 
 bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);

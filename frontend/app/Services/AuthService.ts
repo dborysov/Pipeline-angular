@@ -19,11 +19,11 @@ export class AuthService {
 
     constructor(private http: Http) { }
 
-    get isAuthenticated(): Boolean {
+    static get isAuthenticated(): Boolean {
         return !!localStorage.getItem('id_token');
     }
 
-    get currentUserInfo(): CurrentUserModel {
+    static get currentUserInfo(): CurrentUserModel {
         const currentUserToken = localStorage.getItem('id_token');
         if(!currentUserToken) return null;
 

@@ -1,11 +1,12 @@
 import {Component, View, FormBuilder, Validators, ControlGroup} from 'angular2/angular2';
-import {Router} from 'angular2/router';
+import {Router, CanActivate} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
 @Component({
     bindings: [AuthService, FormBuilder]
 })
+@CanActivate(() => !AuthService.isAuthenticated)
 @View({
     template: `
         <form [ng-form-model]="registrationForm" (submit)="register($event)">

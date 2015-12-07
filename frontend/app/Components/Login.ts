@@ -1,11 +1,12 @@
 import {Component, View, FormBuilder, Validators, ControlGroup} from 'angular2/angular2';
-import {RouterLink, Router} from 'angular2/router';
+import {RouterLink, Router, CanActivate} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
 @Component({
     bindings: [AuthService, FormBuilder]
 })
+@CanActivate(() => !AuthService.isAuthenticated)
 @View({
     directives: [RouterLink],
     template: `
