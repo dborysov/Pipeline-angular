@@ -1,4 +1,5 @@
 import {Component, View, FormBuilder, Validators, ControlGroup} from 'angular2/angular2';
+import {Router} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
@@ -15,11 +16,11 @@ import {UserAuth} from '../Models/UserAuth';
         </form>
     `
 })
-export class RegisterComponent{
-    private registrationForm : ControlGroup;
+export class RegisterComponent {
+    private registrationForm: ControlGroup;
     private errorMessage: string;
 
-    constructor(private authService: AuthService, fb: FormBuilder ) {
+    constructor(private authService: AuthService, private router: Router, fb: FormBuilder) {
         this.registrationForm = fb.group({
             login: ['', Validators.required],
             password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
@@ -30,8 +31,8 @@ export class RegisterComponent{
         const formValues = this.registrationForm.value;
 
         this.authService.register(new UserAuth(formValues.login, formValues.password)).then(v => {
-
-        }, err => {this.errorMessage = err});
+            this.router.navigateByUrl('/');
+        }, err => { this.errorMessage = err });
         event.preventDefault();
     }
 }

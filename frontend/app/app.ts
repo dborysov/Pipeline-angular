@@ -6,6 +6,7 @@ import {AccountComponent} from './Components/Account';
 import {RegisterComponent} from './Components/Register';
 import {LoginComponent} from './Components/Login';
 import {AuthService} from './Services/AuthService';
+import {CurrentUserModel} from './Models/CurrentUserModel';
 
 @Component({
     selector: 'app',
@@ -17,7 +18,7 @@ import {AuthService} from './Services/AuthService';
             <h1 class="page-header text-center">Accounts</h1>
             <div class="row">
                 <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
-                <a *ng-if="isAuthenticated" class="pull-right margin-std" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a>
+                <div class="margin-std" *ng-if="isAuthenticated">Hello, <b>{{currentlyAuthenticatedUser.login}}</b>!<a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a></div>
             </div>
             <router-outlet />
         </div>
@@ -38,7 +39,8 @@ class AppComponent {
         event.preventDefault();
     }
 
-    get isAuthenticated(){return this.authService.isAuthenticated;}
+    get isAuthenticated() { return this.authService.isAuthenticated; }
+    get currentlyAuthenticatedUser() { return this.authService.currentUserInfo; }
 }
 
 bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);

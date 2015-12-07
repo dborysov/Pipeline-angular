@@ -6,6 +6,7 @@ const jwt = require('jwt-simple'),
 module.exports = function (user, res) {
     const payload = {
         sub: user.id,
+        login: user.login,
         exp: moment().add(10, 'days').unix()
     }
 
