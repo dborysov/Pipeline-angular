@@ -10,20 +10,20 @@ import {GitAccount} from '../Models/GitAccount';
 @View({
     directives: [NgIf, RouterLink],
     template: `
-        <div *ng-if="account">
+        <div *ng-if="_account">
             <button class="btn btn-default" [router-link]="['/Accounts']">Back</button><br />
             <p class="margin-std">
-                <img width="100" src="{{account.avatarUrl}}" alt="avatar">
-                <a href="{{account.gitUrl}}">{{account.login}}</a> ({{account.email}})
+                <img width="100" src="{{_account.avatarUrl}}" alt="avatar">
+                <a href="{{_account.gitUrl}}">{{_account.login}}</a> ({{_account.email}})
             </p>
         </div>
     `
 })
 export class GitAccountComponent {
-    private account: GitAccount;
+    private _account: GitAccount;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
-                  .subscribe(account => this.account = account);
+                  .subscribe(account => this._account = account);
 
     }
 }

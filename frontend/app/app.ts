@@ -1,5 +1,5 @@
 import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
-import {HTTP_PROVIDERS, XHRBackend, RequestOptions} from 'angular2/http';
+import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {GitAccountsComponent} from './Components/GitAccounts';
 import {GitAccountComponent} from './Components/GitAccount';
@@ -7,8 +7,7 @@ import {RegisteredUsersComponent} from './Components/RegisteredUsers';
 import {RegisterComponent} from './Components/Register';
 import {LoginComponent} from './Components/Login';
 import {AuthService} from './Services/AuthService';
-import {JwtHttp} from './Services/JwtHttpService';
-import {CurrentUser} from './Models/CurrentUser';
+import {JWT_HTTP_PROVIDER} from './Services/JwtHttpService';
 
 @Component({
     selector: 'app',
@@ -20,7 +19,10 @@ import {CurrentUser} from './Models/CurrentUser';
             <h1 class="page-header text-center">Accounts</h1>
             <div class="row">
                 <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
-                <div class="margin-std" *ng-if="isAuthenticated">Hello, <b>{{currentlyAuthenticatedUser.login}}</b>! (<a [router-link]="['/RegisteredUsers']">show all registered users</a>)<a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a></div>
+                <div class="margin-std" *ng-if="isAuthenticated">
+                    Hello, <b>{{ currentlyAuthenticatedUser.login }}</b>! (<a [router-link]="['/RegisteredUsers']">show all registered users</a>)
+                    <a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a>
+                </div>
             </div>
             <router-outlet />
         </div>
@@ -35,10 +37,10 @@ import {CurrentUser} from './Models/CurrentUser';
     { path: '/login', component: LoginComponent, as: 'Login' },
 ])
 class AppComponent {
-    constructor(private authService: AuthService) { }
+    constructor(private _authService: AuthService) { }
 
     logout(event: Event) {
-        this.authService.logout();
+        this._authService.logout();
         event.preventDefault();
     }
 
@@ -48,11 +50,7 @@ class AppComponent {
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
+    JWT_HTTP_PROVIDER,
     ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy }),
-    provide(JwtHttp,
-        {
-            useFactory: (xhrBackend, requestOptions) => new JwtHttp(xhrBackend, requestOptions),
-            deps: [XHRBackend, RequestOptions]
-        })
+    provide(LocationStrategy, { useClass: HashLocationStrategy })
 ]);

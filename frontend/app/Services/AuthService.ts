@@ -5,29 +5,32 @@ import {CurrentUser} from '../Models/CurrentUser';
 
 @Injectable()
 export class AuthService {
-    private handleSuccessLogin(response: Response, resolve: (value: any) => void, reject: (value: any) => void) {
-        if (response.status !== 200) {
-            reject((<{ message: string }>response.json()).message);
+    private static _tokenName = 'id_token';
+    private _baseUrl = 'http://localhost:1337';
+
+    private handleSuccessLogin(_response: Response, _resolve: (value?: any) => void, _reject: (value?: any) => void) {
+        if (_response.status !== 200) {
+            _reject((<{ message: string }>_response.json()).message);
         } else {
-            const parsedResp = <{ token: string, user: any }>response.json();
+            const parsedResp = <{ token: string }>_response.json();
 
-            localStorage.setItem('id_token', parsedResp.token);
+            localStorage.setItem(AuthService._tokenName, parsedResp.token);
 
-            resolve(parsedResp.user);
+            _resolve();
         }
     }
 
-    constructor(private http: Http) { }
+    constructor(private _http: Http) { }
 
     static get currentUserToken(): string {
-        return localStorage.getItem('id_token');
+        return localStorage.getItem(AuthService._tokenName);
     }
 
-    static get isAuthenticated(): Boolean {
+    static get isAuthenticated() {
         return !!AuthService.currentUserToken;
     }
 
-    static get currentUserInfo(): CurrentUser {
+    static get currentUserInfo() {
         const login = AuthService.decodeToken(AuthService.currentUserToken).login;
 
         return new CurrentUser(login);
@@ -37,7 +40,7 @@ export class AuthService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return new Promise((resolve, reject) => { //rxJs's toPromise just doesn't work correctly
-            this.http.post('http://localhost:1337/auth/login', JSON.stringify(user), { headers })
+            this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(user), { headers })
                 .toPromise(Promise)
                 .then(response => this.handleSuccessLogin(response, resolve, reject));
         });
@@ -47,14 +50,14 @@ export class AuthService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return new Promise((resolve, reject) => { //rxJs's toPromise just doesn't work correctly
-            this.http.post('http://localhost:1337/auth/register', JSON.stringify(user), { headers })
+            this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(user), { headers })
                 .toPromise(Promise)
                 .then(response => this.handleSuccessLogin(response, resolve, reject));
         });
     }
 
     logout() {
-        localStorage.removeItem('id_token');
+        localStorage.removeItem(AuthService._tokenName);
     }
 
     public static decodeToken(token: string) {

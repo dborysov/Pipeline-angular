@@ -10,32 +10,33 @@ import {UserAuth} from '../Models/UserAuth';
 @View({
     directives: [RouterLink],
     template: `
-        <form [ng-form-model]="loginForm" (submit)="login($event)">
+        <form [ng-form-model]="_loginForm" (submit)="login($event)">
             <input ng-control="login" type="text" placeholder="Login">
             <input ng-control="password" type="password" placeholder="Password">
             <button class="btn btn-success-line" type="submit">Login</button>
-            <div>{{ errorMessage }}</div>
+            <div>{{ _errorMessage }}</div>
             <a [router-link]="['/Register']">Register</a>
         </form>
     `
 })
 export class LoginComponent{
-    private loginForm : ControlGroup;
-    private errorMessage: string;
+    private _loginForm : ControlGroup;
+    private _errorMessage: string;
 
-    constructor(private authService: AuthService, private router: Router, fb: FormBuilder) {
-        this.loginForm = fb.group({
+    constructor(private _authService: AuthService, private _router: Router, fb: FormBuilder) {
+        this._loginForm = fb.group({
             login: ['', Validators.required],
             password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
         });
     }
 
     login(event: Event) {
-        const formValues = this.loginForm.value;
+        const formValues = this._loginForm.value;
 
-        this.authService.login(new UserAuth(formValues.login, formValues.password)).then(v => {
-            this.router.navigateByUrl('/');
-        }, err => {this.errorMessage = err});
+        this._authService.login(new UserAuth(formValues.login, formValues.password)).then(v => {
+            this._router.navigateByUrl('/');
+        }, err => {this._errorMessage = err});
+
         event.preventDefault();
     }
 }
