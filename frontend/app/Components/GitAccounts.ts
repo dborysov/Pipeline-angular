@@ -22,7 +22,7 @@ import {Account} from '../Models/Account';
         </table>
     `
 })
-export class AccountsComponent {
+export class GitAccountsComponent {
     private accounts: Account[] = [];
     constructor(gitService: GitService) {
         gitService.getUsers()

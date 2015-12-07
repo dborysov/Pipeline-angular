@@ -19,7 +19,7 @@ import {Account} from '../Models/Account';
         </div>
     `
 })
-export class AccountComponent {
+export class GitAccountComponent {
     private account: Account;
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))

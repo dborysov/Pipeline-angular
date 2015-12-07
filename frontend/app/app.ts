@@ -1,11 +1,13 @@
 import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, XHRBackend, RequestOptions} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
-import {AccountsComponent} from './Components/Accounts';
-import {AccountComponent} from './Components/Account';
+import {GitAccountsComponent} from './Components/GitAccounts';
+import {GitAccountComponent} from './Components/GitAccount';
+import {RegisteredUsersComponent} from './Components/RegisteredUsers';
 import {RegisterComponent} from './Components/Register';
 import {LoginComponent} from './Components/Login';
 import {AuthService} from './Services/AuthService';
+import {JwtHttp} from './Services/JwtHttpService';
 import {CurrentUserModel} from './Models/CurrentUserModel';
 
 @Component({
@@ -18,7 +20,7 @@ import {CurrentUserModel} from './Models/CurrentUserModel';
             <h1 class="page-header text-center">Accounts</h1>
             <div class="row">
                 <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
-                <div class="margin-std" *ng-if="isAuthenticated">Hello, <b>{{currentlyAuthenticatedUser.login}}</b>!<a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a></div>
+                <div class="margin-std" *ng-if="isAuthenticated">Hello, <b>{{currentlyAuthenticatedUser.login}}</b>! (<a [router-link]="['/RegisteredUsers']">show all registered users</a>)<a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a></div>
             </div>
             <router-outlet />
         </div>
@@ -26,8 +28,9 @@ import {CurrentUserModel} from './Models/CurrentUserModel';
     directives: [RouterOutlet, RouterLink, NgIf]
 })
 @RouteConfig([
-    { path: '/', component: AccountsComponent, as: 'Accounts' },
-    { path: '/account/:login', component: AccountComponent, as: 'Account' },
+    { path: '/', component: GitAccountsComponent, as: 'Accounts' },
+    { path: '/account/:login', component: GitAccountComponent, as: 'Account' },
+    { path: '/registered-users', component: RegisteredUsersComponent, as: 'RegisteredUsers' },
     { path: '/register', component: RegisterComponent, as: 'Register' },
     { path: '/login', component: LoginComponent, as: 'Login' },
 ])
@@ -43,4 +46,13 @@ class AppComponent {
     get currentlyAuthenticatedUser() { return AuthService.currentUserInfo; }
 }
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);
+bootstrap(AppComponent, [
+    HTTP_PROVIDERS,
+    ROUTER_PROVIDERS,
+    provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    provide(JwtHttp,
+        {
+            useFactory: (xhrBackend, requestOptions) => new JwtHttp(xhrBackend, requestOptions),
+            deps: [XHRBackend, RequestOptions]
+        })
+]);

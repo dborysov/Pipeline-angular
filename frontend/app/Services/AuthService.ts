@@ -19,18 +19,18 @@ export class AuthService {
 
     constructor(private http: Http) { }
 
+    static get currentUserToken(): string {
+        return localStorage.getItem('id_token');
+    }
+
     static get isAuthenticated(): Boolean {
-        return !!localStorage.getItem('id_token');
+        return !!AuthService.currentUserToken;
     }
 
     static get currentUserInfo(): CurrentUserModel {
-        const currentUserToken = localStorage.getItem('id_token');
-        if(!currentUserToken) return null;
+        const login = AuthService.decodeToken(AuthService.currentUserToken).login;
 
-        const currentUserPayload = currentUserToken.split('.')[1];
-        const currentUserLogin = JSON.parse(atob(currentUserPayload)).login;
-
-        return new CurrentUserModel(currentUserLogin);
+        return new CurrentUserModel(login);
     }
 
     login(user: UserAuth) {
@@ -55,5 +55,20 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem('id_token');
+    }
+
+    public static decodeToken(token: string) {
+        var parts = token.split('.');
+
+        if (parts.length !== 3) {
+            throw new Error('JWT must have 3 parts');
+        }
+
+        var decoded = atob(parts[1]);
+        if (!decoded) {
+            throw new Error('Cannot decode the token');
+        }
+
+        return JSON.parse(decoded);
     }
 }
