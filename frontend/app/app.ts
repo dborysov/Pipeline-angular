@@ -1,13 +1,8 @@
 import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
 import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
-import {GitAccountsComponent} from './Components/GitAccounts';
-import {GitAccountComponent} from './Components/GitAccount';
-import {RegisteredUsersComponent} from './Components/RegisteredUsers';
-import {RegisterComponent} from './Components/Register';
-import {LoginComponent} from './Components/Login';
-import {AuthService} from './Services/AuthService';
-import {JWT_HTTP_PROVIDER} from './Services/JwtHttpService';
+import {GitAccountComponent, GitAccountsComponent, LoginComponent, RegisterComponent, RegisteredUsersComponent} from './Components/Components';
+import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
 
 @Component({
     selector: 'app',

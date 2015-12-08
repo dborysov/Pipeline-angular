@@ -1,8 +1,6 @@
 import {View, Component, NgFor} from 'angular2/angular2';
 import {RouterLink, CanActivate} from 'angular2/router';
-import {GitService} from '../Services/GitService';
-import {UsersService} from '../Services/UsersService';
-import {AuthService} from '../Services/AuthService';
+import {GitService, UsersService, AuthService} from '../Services/Services';
 import {IUser} from '../Models/User';
 
 @Component({
