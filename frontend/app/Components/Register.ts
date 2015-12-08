@@ -33,7 +33,7 @@ export class RegisterComponent {
 
         this._authService.register(new UserAuth(formValues.login, formValues.password)).then(v => {
             this._router.navigateByUrl('/');
-        }, err => { this._errorMessage = err });
+        }, err => { this._errorMessage = err.json().message; });
         event.preventDefault();
     }
 }

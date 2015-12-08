@@ -1,7 +1,8 @@
 import {View, Component, NgFor} from 'angular2/angular2';
-import {RouterLink} from 'angular2/router';
+import {RouterLink, CanActivate} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {UsersService} from '../Services/UsersService';
+import {AuthService} from '../Services/AuthService';
 import {IUser} from '../Models/User';
 
 @Component({
@@ -28,6 +29,7 @@ import {IUser} from '../Models/User';
         </table>
     `
 })
+@CanActivate(() => AuthService.isAuthenticated)
 export class RegisteredUsersComponent {
     users: IUser[] = [];
     constructor(private _usersService: UsersService) {

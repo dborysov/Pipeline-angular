@@ -1,5 +1,5 @@
 import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {GitAccountsComponent} from './Components/GitAccounts';
 import {GitAccountComponent} from './Components/GitAccount';
@@ -37,7 +37,15 @@ import {JWT_HTTP_PROVIDER} from './Services/JwtHttpService';
     { path: '/login', component: LoginComponent, as: 'Login' },
 ])
 class AppComponent {
-    constructor(private _authService: AuthService) { }
+    constructor(private _authService: AuthService) {
+        const searchParams = new URLSearchParams(window.location.search.substring(1));
+
+        if(searchParams.has('code') && window.opener && window.opener.location.origin === window.location.origin){
+            const code = searchParams.get('code')
+
+            window.opener.postMessage(code, window.location.origin);
+        }
+    }
 
     logout(event: Event) {
         this._authService.logout();

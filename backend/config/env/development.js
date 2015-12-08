@@ -21,6 +21,9 @@ module.exports = {
        local: {
            secret: 'secret_local_key',
            jwtSigningAlgorithm: 'HS256'
+       },
+       google: {
+           secret: 'CelX_D_bPj8-DCOi3HMWZBmq'
        }
    }
 

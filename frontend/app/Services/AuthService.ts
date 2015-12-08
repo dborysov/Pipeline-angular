@@ -8,16 +8,18 @@ export class AuthService {
     private static _tokenName = 'id_token';
     private _baseUrl = 'http://localhost:1337';
 
-    private handleSuccessLogin(_response: Response, _resolve: (value?: any) => void, _reject: (value?: any) => void) {
-        if (_response.status !== 200) {
-            _reject((<{ message: string }>_response.json()).message);
-        } else {
-            const parsedResp = <{ token: string }>_response.json();
+    private handleSuccessLogin(_response: Response) {
+        return new Promise((resolve, reject) => {
+            if (_response.status !== 200) {
+                reject((<{ message: string }>_response.json()).message);
+            } else {
+                const parsedResp = <{ token: string }>_response.json();
 
-            localStorage.setItem(AuthService._tokenName, parsedResp.token);
+                localStorage.setItem(AuthService._tokenName, parsedResp.token);
 
-            _resolve();
-        }
+                resolve();
+            }
+        })
     }
 
     constructor(private _http: Http) { }
@@ -39,21 +41,27 @@ export class AuthService {
     login(user: UserAuth) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return new Promise((resolve, reject) => { //rxJs's toPromise just doesn't work correctly
-            this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(user), { headers })
-                .toPromise(Promise)
-                .then(response => this.handleSuccessLogin(response, resolve, reject));
-        });
+        return this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(user), { headers })
+            .toPromise(Promise)
+            .then(response => this.handleSuccessLogin(response));
     }
+
+    authGoogle(params: { code: string, clientId: string }) {
+        const headers = new Headers({ 'Content-Type': 'application/json' }),
+            requestParameters = { code: params.code, clientId: params.clientId, redirectUri: window.location.origin };
+
+        return this._http.post(`${this._baseUrl}/auth/google`, JSON.stringify(requestParameters), { headers })
+            .toPromise(Promise)
+            .then(response => this.handleSuccessLogin(response));
+    }
+
 
     register(user: UserAuth) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return new Promise((resolve, reject) => { //rxJs's toPromise just doesn't work correctly
-            this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(user), { headers })
-                .toPromise(Promise)
-                .then(response => this.handleSuccessLogin(response, resolve, reject));
-        });
+        return this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(user), { headers })
+            .toPromise(Promise)
+            .then(response => this.handleSuccessLogin(response));
     }
 
     logout() {

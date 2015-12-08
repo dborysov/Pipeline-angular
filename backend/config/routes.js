@@ -33,7 +33,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   'POST /auth/register': 'AuthController.register',
-  'POST /auth/login': 'AuthController.login'
+  'POST /auth/login': 'AuthController.login',
+  'POST /auth/google': 'AuthController.google'
 
   /***************************************************************************
   *                                                                          *

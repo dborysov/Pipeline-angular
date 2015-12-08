@@ -19,9 +19,13 @@ module.exports = {
         },
         password: {
             type: 'string',
-            required: true
+            required: false
         },
-        toJSON: function(){
+        googleId: {
+            type: 'string',
+            required: false
+        },
+        toJSON: function () {
             const user = this.toObject();
             delete user.password;
 
@@ -29,12 +33,17 @@ module.exports = {
         }
     },
 
-    beforeCreate: function(attributes, next) {
-        bcrypt.genSalt(10, function(err, salt){
-            if(err) return next(err);
+    beforeCreate: function (attributes, next) {
+        if (!attributes.password) {
+            next();
+            return;
+        }
 
-            bcrypt.hash(attributes.password, salt, null, function(err, hash) {
-                if(err) return next(err);
+        bcrypt.genSalt(10, function (err, salt) {
+            if (err) return next(err);
+
+            bcrypt.hash(attributes.password, salt, null, function (err, hash) {
+                if (err) return next(err);
 
                 attributes.password = hash;
                 next();
