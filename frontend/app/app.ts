@@ -1,3 +1,5 @@
+import 'zone.js';
+import 'reflect-metadata';
 import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
 import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
