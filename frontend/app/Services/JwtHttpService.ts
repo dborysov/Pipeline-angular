@@ -5,21 +5,21 @@ import {AuthService} from './AuthService';
 export class JwtHttp extends Http {
     private _options = {
         headerName: 'Authorization',
-        headerPrefix: 'Bearer'
+        headerPrefix: 'Bearer',
     };
 
     constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) { super(backend, defaultOptions); }
 
-    get(url: string, options?: RequestOptionsArgs) {
+    public get(url: string, options?: RequestOptionsArgs) {
         if (!AuthService.isAuthenticated) {
             return super.get(url, options);
         }
 
         if (options) {
             if (options.headers) {
-                options.headers.set(this._options.headerName, `${this._options.headerPrefix} ${AuthService.currentUserToken}`)
+                options.headers.set(this._options.headerName, `${this._options.headerPrefix} ${AuthService.currentUserToken}`);
             } else {
-                options.headers = new Headers({ [this._options.headerName]: `${this._options.headerPrefix} ${AuthService.currentUserToken}` })
+                options.headers = new Headers({ [this._options.headerName]: `${this._options.headerPrefix} ${AuthService.currentUserToken}` });
             }
         } else {
             options = { headers: new Headers({ [this._options.headerName]: `${this._options.headerPrefix} ${AuthService.currentUserToken}` }) };
@@ -30,6 +30,6 @@ export class JwtHttp extends Http {
 }
 
 export const JWT_HTTP_PROVIDER = provide(JwtHttp, {
+    deps: [XHRBackend, RequestOptions],
     useFactory: (xhrBackend, requestOptions) => new JwtHttp(xhrBackend, requestOptions),
-    deps: [XHRBackend, RequestOptions]
-});;
+});

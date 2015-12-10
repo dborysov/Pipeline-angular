@@ -15,25 +15,29 @@ import {UserAuth} from '../Models/UserAuth';
             <button class="btn btn-success-line" type="submit">Register</button>
             <div>{{ _errorMessage }}</div>
         </form>
-    `
+    `,
 })
 export class RegisterComponent {
     private _registrationForm: ControlGroup;
     private _errorMessage: string;
+    private _authService: AuthService;
+    private _router: Router;
 
-    constructor(private _authService: AuthService, private _router: Router, fb: FormBuilder) {
+    constructor(authService: AuthService, router: Router, fb: FormBuilder) {
+        this._authService = authService;
+        this._router = router;
         this._registrationForm = fb.group({
             login: ['', Validators.required],
-            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
         });
     }
 
-    register(event: Event) {
+    private register(event: Event) {
         const formValues = this._registrationForm.value;
 
-        this._authService.register(new UserAuth(formValues.login, formValues.password)).then(v => {
-            this._router.navigateByUrl('/');
-        }, err => { this._errorMessage = err.json().message; });
+        this._authService.register(new UserAuth(formValues.login, formValues.password)).then(
+            v => { this._router.navigateByUrl('/'); },
+            err => { this._errorMessage = err.json().message; });
         event.preventDefault();
     }
 }

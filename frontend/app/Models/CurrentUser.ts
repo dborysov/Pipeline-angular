@@ -1,5 +1,8 @@
 export class CurrentUser {
+    private _login: string;
     get login() { return this._login; }
 
-    constructor(private _login: string) { }
+    constructor(login: string) {
+        this._login = login;
+     }
 }

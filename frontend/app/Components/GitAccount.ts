@@ -4,8 +4,8 @@ import {GitService} from '../Services/GitService';
 import {GitAccount} from '../Models/GitAccount';
 
 @Component({
+    bindings: [GitService],
     selector: 'account',
-    bindings: [GitService]
 })
 @View({
     directives: [NgIf, RouterLink],
@@ -17,10 +17,11 @@ import {GitAccount} from '../Models/GitAccount';
                 <a href="{{_account.gitUrl}}">{{_account.login}}</a> ({{_account.email}})
             </p>
         </div>
-    `
+    `,
 })
 export class GitAccountComponent {
     private _account: GitAccount;
+
     constructor(params: RouteParams, gitService: GitService) {
         gitService.getUser(params.get('login'))
                   .subscribe(account => this._account = account);

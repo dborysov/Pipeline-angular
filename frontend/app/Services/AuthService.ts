@@ -7,79 +7,83 @@ import {CurrentUser} from '../Models/CurrentUser';
 export class AuthService {
     private static _tokenName = 'id_token';
     private _baseUrl = 'http://localhost:1337';
+    private _http: Http;
 
-    private handleSuccessLogin(_response: Response) {
-        return new Promise((resolve, reject) => {
-            if (_response.status !== 200) {
-                reject((<{ message: string }>_response.json()).message);
-            } else {
-                const parsedResp = <{ token: string }>_response.json();
-
-                localStorage.setItem(AuthService._tokenName, parsedResp.token);
-
-                resolve();
-            }
-        })
+    constructor(http: Http) {
+        this._http = http;
     }
 
-    constructor(private _http: Http) { }
-
-    static get currentUserToken(): string {
+    public static get currentUserToken(): string {
         return localStorage.getItem(AuthService._tokenName);
     }
 
-    static get isAuthenticated() {
+    public static get isAuthenticated() {
         return !!AuthService.currentUserToken;
     }
 
-    static get currentUserInfo() {
+    public static get currentUserInfo() {
         const login = AuthService.decodeToken(AuthService.currentUserToken).login;
 
         return new CurrentUser(login);
     }
 
-    login(user: UserAuth) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+    private static decodeToken(token: string) {
+        const parts = token.split('.');
 
-        return this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(user), { headers })
+        if (parts.length !== 3) {
+            throw new Error('JWT must have 3 parts');
+        }
+
+        const decoded = atob(parts[1]);
+        if (!decoded) {
+            throw new Error('Cannot decode the token');
+        }
+
+        return JSON.parse(decoded);
+    }
+
+    public login(user: UserAuth) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const requetParameters = {login: user.login, password: user.password};
+
+        return this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(requetParameters), { headers })
             .toPromise(Promise)
             .then(response => this.handleSuccessLogin(response));
     }
 
-    authGoogle(params: { code: string, clientId: string }) {
-        const headers = new Headers({ 'Content-Type': 'application/json' }),
-            requestParameters = { code: params.code, clientId: params.clientId, redirectUri: window.location.origin };
+    public authGoogle(params: { code: string, clientId: string }) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestParameters = { clientId: params.clientId, code: params.code, redirectUri: window.location.origin };
 
         return this._http.post(`${this._baseUrl}/auth/google`, JSON.stringify(requestParameters), { headers })
             .toPromise(Promise)
             .then(response => this.handleSuccessLogin(response));
     }
 
-
-    register(user: UserAuth) {
+    public register(user: UserAuth) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
+        const requetParameters = {login: user.login, password: user.password};
 
-        return this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(user), { headers })
+        return this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(requetParameters), { headers })
             .toPromise(Promise)
             .then(response => this.handleSuccessLogin(response));
     }
 
-    logout() {
+    public logout() {
         localStorage.removeItem(AuthService._tokenName);
     }
 
-    public static decodeToken(token: string) {
-        var parts = token.split('.');
+    private handleSuccessLogin(response: Response) {
+        return new Promise((resolve, reject) => {
+            if (response.status !== 200) {
+                reject(response.json()['message']);
+            } else {
+                const parsedResp = <{ token: string }>response.json();
 
-        if (parts.length !== 3) {
-            throw new Error('JWT must have 3 parts');
-        }
+                localStorage.setItem(AuthService._tokenName, parsedResp.token);
 
-        var decoded = atob(parts[1]);
-        if (!decoded) {
-            throw new Error('Cannot decode the token');
-        }
-
-        return JSON.parse(decoded);
+                resolve();
+            }
+        });
     }
 }

@@ -4,8 +4,8 @@ import {GitService, UsersService, AuthService} from '../Services/Services';
 import {IUser} from '../Models/User';
 
 @Component({
+    bindings: [UsersService],
     selector: 'account',
-    bindings: [UsersService]
 })
 @View({
     directives: [NgFor, RouterLink],
@@ -18,19 +18,20 @@ import {IUser} from '../Models/User';
                 <th>Registration date</th>
                 <th>Update date</th>
             </tr>
-            <tr *ng-for="#user of users">
+            <tr *ng-for="#user of _users">
                 <td>{{user.id}}</td>
                 <td>{{user.login}}</td>
                 <td>{{user.createdAt | date}}</td>
                 <td>{{user.updatedAt | date}}</td>
             </tr>
         </table>
-    `
+    `,
 })
 @CanActivate(() => AuthService.isAuthenticated)
 export class RegisteredUsersComponent {
-    users: IUser[] = [];
-    constructor(private _usersService: UsersService) {
-        this._usersService.getUsers().then(users => { this.users = users; })
+    private _users: IUser[] = [];
+
+    constructor(usersService: UsersService) {
+        usersService.getUsers().then(users => { this._users = users; });
     }
 }

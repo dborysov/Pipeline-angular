@@ -4,8 +4,8 @@ import {GitService} from '../Services/GitService';
 import {GitAccount} from '../Models/GitAccount';
 
 @Component({
+    bindings: [GitService],
     selector: 'accounts',
-    bindings: [GitService]
 })
 @View({
     directives: [CORE_DIRECTIVES, RouterLink],
@@ -20,10 +20,11 @@ import {GitAccount} from '../Models/GitAccount';
                 <td>{{account.login}}</td>
             </tr>
         </table>
-    `
+    `,
 })
 export class GitAccountsComponent {
     private _accounts: GitAccount[] = [];
+
     constructor(gitService: GitService) {
         gitService.getUsers()
                   .subscribe(accounts => this._accounts = accounts);

@@ -7,10 +7,11 @@ import {GitAccountComponent, GitAccountsComponent, LoginComponent, RegisterCompo
 import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
 
 @Component({
+    bindings: [AuthService],
     selector: 'app',
-    bindings: [AuthService]
 })
 @View({
+    directives: [RouterOutlet, RouterLink, NgIf],
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
@@ -24,38 +25,41 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
             <router-outlet />
         </div>
     `,
-    directives: [RouterOutlet, RouterLink, NgIf]
-})
+}) /* tslint:disable:object-literal-sort-keys */
 @RouteConfig([
     { path: '/', component: GitAccountsComponent, as: 'Accounts' },
     { path: '/account/:login', component: GitAccountComponent, as: 'Account' },
     { path: '/registered-users', component: RegisteredUsersComponent, as: 'RegisteredUsers' },
     { path: '/register', component: RegisterComponent, as: 'Register' },
     { path: '/login', component: LoginComponent, as: 'Login' },
-])
+]) /* tslint:enable */
 class AppComponent {
-    constructor(private _authService: AuthService) {
+    private _authService: AuthService;
+
+    constructor(authService: AuthService) {
+        this._authService = authService;
+
         const searchParams = new URLSearchParams(window.location.search.substring(1));
 
-        if(searchParams.has('code') && window.opener && window.opener.location.origin === window.location.origin){
-            const code = searchParams.get('code')
+        if (searchParams.has('code') && window.opener && window.opener.location.origin === window.location.origin) {
+            const code = searchParams.get('code');
 
             window.opener.postMessage(code, window.location.origin);
         }
     }
 
-    logout(event: Event) {
+    private logout(event: Event) {
         this._authService.logout();
         event.preventDefault();
     }
 
-    get isAuthenticated() { return AuthService.isAuthenticated; }
-    get currentlyAuthenticatedUser() { return AuthService.currentUserInfo; }
+    private get isAuthenticated() { return AuthService.isAuthenticated; }
+    private get currentlyAuthenticatedUser() { return AuthService.currentUserInfo; }
 }
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     JWT_HTTP_PROVIDER,
     ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy })
+    provide(LocationStrategy, { useClass: HashLocationStrategy }),
 ]);
