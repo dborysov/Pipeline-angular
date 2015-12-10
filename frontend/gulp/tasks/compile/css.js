@@ -1,10 +1,10 @@
 'use strict';
 
-const gulp = require('gulp'),
-      path = require('path'),
-      sass = require('gulp-sass'),
-      uglifycss = require('gulp-uglifycss'),
-      config = require('../../config');
+const gulp = require('gulp');
+const path = require('path');
+const sass = require('gulp-sass');
+const uglifycss = require('gulp-uglifycss');
+const config = require('../../config');
 
 gulp.task('compile-css', ['del-dist'], () =>
     gulp.src(config.src.sass.custom)

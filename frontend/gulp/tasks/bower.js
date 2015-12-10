@@ -1,6 +1,6 @@
 'use strict';
 
-const gulp = require('gulp'),
-      bower = require('gulp-bower');
+const gulp = require('gulp');
+const bower = require('gulp-bower');
 
 gulp.task('bower-install', () => bower());
