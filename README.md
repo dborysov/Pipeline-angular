@@ -1,14 +1,13 @@
 #Lab (educational app)
 
 ##Technologies used:
-- Angular 2.0.0-alpha.47
+- Angular 2.0.0-beta.0
 - Bootstrap
 - Some stuff, used with gulp:
   - Browserify + tsify
   - Sourcemaps
   - Minifying js, css, html
   - Inject
-  - Bower
   - Sass
 - Some stuff, used on backend
   - bcrypt
