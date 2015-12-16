@@ -5,7 +5,7 @@ const baseDir = {
         src: 'app'
     },
     folderNames = {
-        bower: 'bower_components',
+        nodeModules: 'node_modules',
         outputCss: 'css',
         outputLibs: 'libs'
     },
@@ -23,7 +23,7 @@ const baseDir = {
             mainFile: `${baseDir.src}/app.ts`
         },
         css: {
-            libs: [`${folderNames.bower}/bootstrap/dist/css/bootstrap.min.css`]
+            libs: ['bootstrap/dist/css/bootstrap.min.css']
         },
         sass: {
             custom: [`./${baseDir.src}/Content/Sass/+(*.sass|*.scss)`]

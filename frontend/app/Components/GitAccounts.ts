@@ -1,4 +1,5 @@
-import {Component, View, CORE_DIRECTIVES} from 'angular2/angular2';
+import {Component, View} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
 import {GitAccount} from '../Models/GitAccount';
@@ -10,12 +11,12 @@ import {GitAccount} from '../Models/GitAccount';
 @View({
     directives: [CORE_DIRECTIVES, RouterLink],
     template: `
-        <table class="table table-striped table-hover" *ng-if="_accounts && _accounts.length">
+        <table class="table table-striped table-hover" *ngIf="_accounts && _accounts.length">
             <tr>
                 <th class="col-md-2">Avatar</th>
                 <th>Login</th>
             </tr>
-            <tr *ng-for="#account of _accounts" [router-link]="['/Account', {login: account.login}]">
+            <tr *ngFor="#account of _accounts" [routerLink]="['/Account', {login: account.login}]">
                 <td><img width="50" src="{{account.avatarUrl}}" alt="avatar"></td>
                 <td>{{account.login}}</td>
             </tr>

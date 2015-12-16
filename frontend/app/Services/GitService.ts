@@ -1,6 +1,7 @@
+import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http';
-import {Injectable} from 'angular2/angular2';
 import {GitAccount} from '../Models/GitAccount';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class GitService {
@@ -13,7 +14,7 @@ export class GitService {
 
     public getUsers() {
         return this._http.get(this._baseUrl)
-                         .map<Response, GitAccount[]>(result => {
+                         .map<GitAccount[]>(result => {
                              const parsed = <IGitAccountResponse[]>result.json();
                              return parsed.map(acc => new GitAccount(acc.login, acc.avatar_url, acc.html_url, acc.email));
                          });
@@ -21,7 +22,7 @@ export class GitService {
 
     public getUser(login: string) {
         return this._http.get(`${this._baseUrl}/${login}`)
-                         .map<Response, GitAccount>(result => {
+                         .map<GitAccount>(result => {
                              const parsed = <IGitAccountResponse>result.json();
                              return new GitAccount(parsed.login, parsed.avatar_url, parsed.html_url, parsed.email);
                          });

@@ -1,4 +1,4 @@
-import {Injectable, provide} from 'angular2/angular2';
+import {Injectable, provide} from 'angular2/core';
 import {Http, RequestOptionsArgs, Headers, ConnectionBackend, RequestOptions, XHRBackend} from 'angular2/http';
 import {AuthService} from './AuthService';
 

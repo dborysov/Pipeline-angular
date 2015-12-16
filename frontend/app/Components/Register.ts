@@ -1,4 +1,5 @@
-import {Component, View, FormBuilder, Validators, ControlGroup} from 'angular2/angular2';
+import {Component, View} from 'angular2/core';
+import {FormBuilder, Validators, ControlGroup} from 'angular2/common';
 import {Router, CanActivate} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
@@ -9,9 +10,9 @@ import {UserAuth} from '../Models/UserAuth';
 @CanActivate(() => !AuthService.isAuthenticated)
 @View({
     template: `
-        <form [ng-form-model]="_registrationForm" (submit)="register($event)">
-            <input ng-control="login" type="text" placeholder="Login">
-            <input ng-control="password" type="password" placeholder="Password">
+        <form [ngFormModel]="_registrationForm" (submit)="register($event)">
+            <input ngControl="login" type="text" placeholder="Login">
+            <input ngControl="password" type="password" placeholder="Password">
             <button class="btn btn-success-line" type="submit">Register</button>
             <div>{{ _errorMessage }}</div>
         </form>

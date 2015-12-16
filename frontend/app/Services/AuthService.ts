@@ -1,7 +1,8 @@
-import {Injectable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import {UserAuth} from '../Models/UserAuth';
 import {CurrentUser} from '../Models/CurrentUser';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {

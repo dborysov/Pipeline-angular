@@ -1,6 +1,8 @@
-import 'zone.js';
-import 'reflect-metadata';
-import {Component, View, bootstrap, provide, NgIf} from 'angular2/angular2';
+import 'angular2/bundles/angular2-polyfills.min';
+import {Component, View, provide, enableProdMode} from 'angular2/core';
+import {NgIf} from 'angular2/common';
+import {Router} from 'angular2/router';
+import {bootstrap} from 'angular2/bootstrap';
 import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {GitAccountComponent, GitAccountsComponent, LoginComponent, RegisterComponent, RegisteredUsersComponent} from './Components/Components';
@@ -15,14 +17,12 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
-            <div class="row">
-                <a *ng-if="!isAuthenticated" class="pull-right margin-std" [router-link]="['/Login']">Login</a>
-                <div class="margin-std" *ng-if="isAuthenticated">
-                    Hello, <b>{{ currentlyAuthenticatedUser.login }}</b>! (<a [router-link]="['/RegisteredUsers']">show all registered users</a>)
-                    <a class="pull-right" [router-link]="['/Accounts']" (click)="logout($event)">Logout</a>
-                </div>
+                <a *ngIf="!isAuthenticated" class="pull-right margin-std" [routerLink]="['/Login']">Login</a>
+                <div class="margin-std" *ngIf="isAuthenticated">
+                    Hello, <b>{{ currentlyAuthenticatedUser.login }}</b>! (<a [routerLink]="['/RegisteredUsers']">show all registered users</a>)
+                    <a href class="pull-right" (click)="logout($event)">Logout</a>
             </div>
-            <router-outlet />
+            <router-outlet></router-outlet>
         </div>
     `,
 }) /* tslint:disable:object-literal-sort-keys */
@@ -35,9 +35,11 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
 ]) /* tslint:enable */
 class AppComponent {
     private _authService: AuthService;
+    private _router: Router;
 
-    constructor(authService: AuthService) {
+    constructor(authService: AuthService, router: Router) {
         this._authService = authService;
+        this._router = router;
 
         const searchParams = new URLSearchParams(window.location.search.substring(1));
 
@@ -50,6 +52,7 @@ class AppComponent {
 
     private logout(event: Event) {
         this._authService.logout();
+        this._router.navigateByUrl('/');
         event.preventDefault();
     }
 
@@ -57,6 +60,7 @@ class AppComponent {
     private get currentlyAuthenticatedUser() { return AuthService.currentUserInfo; }
 }
 
+enableProdMode();
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     JWT_HTTP_PROVIDER,

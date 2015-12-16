@@ -1,13 +1,13 @@
 'use strict';
 
-const gulp = require('gulp'),
-      browserify = require('browserify'),
-      tsify = require('tsify'),
-      source = require('vinyl-source-stream'),
-      streamify = require('gulp-streamify'),
-      sourcemaps = require('gulp-sourcemaps'),
-      uglify = require('gulp-uglify'),
-      config = require('../../config');
+const gulp = require('gulp');
+const browserify = require('browserify');
+const tsify = require('tsify');
+const source = require('vinyl-source-stream');
+const streamify = require('gulp-streamify');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const config = require('../../config');
 
 gulp.task('compile-js', ['del-dist'], () =>
     browserify(config.src.ts.mainFile, { debug: true })

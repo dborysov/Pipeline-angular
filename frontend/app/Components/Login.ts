@@ -1,4 +1,5 @@
-import {Component, View, FormBuilder, Validators, ControlGroup} from 'angular2/angular2';
+import {Component, View} from 'angular2/core';
+import {FormBuilder, Validators, ControlGroup} from 'angular2/common';
 import {RouterLink, Router, CanActivate} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
@@ -10,12 +11,12 @@ import {UserAuth} from '../Models/UserAuth';
 @View({
     directives: [RouterLink],
     template: `
-        <form [ng-form-model]="_loginForm" (submit)="login($event)">
-            <input ng-control="login" type="text" placeholder="Login">
-            <input ng-control="password" type="password" placeholder="Password">
+        <form [ngFormModel]="_loginForm" (submit)="login($event)">
+            <input ngControl="login" type="text" placeholder="Login">
+            <input ngControl="password" type="password" placeholder="Password">
             <button class="btn btn-success-line" type="submit">Login</button>
             <div>{{ _errorMessage }}</div>
-            <a [router-link]="['/Register']">Register</a>
+            <a [routerLink]="['/Register']">Register</a>
         </form>
         <button class="btn btn-success" type="button" (click)="googleAuth()">Google</button>
     `,
