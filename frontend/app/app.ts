@@ -4,7 +4,7 @@ import 'angular2/bundles/angular2-polyfills.min';
 import {Component, provide, enableProdMode} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 import {Router} from 'angular2/router';
-import {bootstrap} from 'angular2/bootstrap';
+import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
 import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {GitAccountComponent, GitAccountsComponent, LoginComponent, RegisterComponent, RegisteredUsersComponent} from './Components/Components';

@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/dborysov/Levi9-pipeline-angularjs-2.0#readme",
   "dependencies": {
-    "angular2": "2.0.0-beta.14",
+    "angular2": "2.0.0-beta.15",
     "bootstrap": "3.3.6",
     "browserify": "13.0.0",
     "del": "2.2.0",
