@@ -1,7 +1,7 @@
 #Lab (educational app)
 
 ##Technologies used:
-- Angular 2.0.0-beta.0
+- Angular 2.0.0-beta.15
 - Bootstrap
 - Some stuff, used with gulp:
   - Browserify + tsify
