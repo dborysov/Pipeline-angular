@@ -1,4 +1,4 @@
-import {View, Component} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {NgFor} from 'angular2/common';
 import {RouterLink, CanActivate} from 'angular2/router';
 import {GitService, UsersService, AuthService} from '../Services/Services';
@@ -6,10 +6,8 @@ import {IUser} from '../Models/User';
 
 @Component({
     bindings: [UsersService],
-    selector: 'account',
-})
-@View({
     directives: [NgFor, RouterLink],
+    selector: 'account',
     template: `
         <button class="btn btn-default" [routerLink]="['/Accounts']">Back</button><br />
         <table class="table table-striped table-hover">

@@ -1,14 +1,11 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {FormBuilder, Validators, ControlGroup} from 'angular2/common';
 import {RouterLink, Router, CanActivate} from 'angular2/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
 @Component({
-    bindings: [AuthService, FormBuilder]
-})
-@CanActivate(() => !AuthService.isAuthenticated)
-@View({
+    bindings: [AuthService, FormBuilder],
     directives: [RouterLink],
     template: `
         <form [ngFormModel]="_loginForm" (submit)="login($event)">
@@ -21,6 +18,7 @@ import {UserAuth} from '../Models/UserAuth';
         <button class="btn btn-success" type="button" (click)="googleAuth()">Google</button>
     `,
 })
+@CanActivate(() => !AuthService.isAuthenticated)
 export class LoginComponent {
     private _loginForm: ControlGroup;
     private _errorMessage: string;

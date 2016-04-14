@@ -1,4 +1,4 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
@@ -6,10 +6,8 @@ import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     bindings: [GitService],
-    selector: 'accounts',
-})
-@View({
     directives: [CORE_DIRECTIVES, RouterLink],
+    selector: 'accounts',
     template: `
         <table class="table table-striped table-hover" *ngIf="_accounts && _accounts.length">
             <tr>

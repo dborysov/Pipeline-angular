@@ -1,4 +1,4 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 import {RouteParams, RouterLink} from 'angular2/router';
 import {GitService} from '../Services/GitService';
@@ -6,10 +6,8 @@ import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     bindings: [GitService],
-    selector: 'account',
-})
-@View({
     directives: [NgIf, RouterLink],
+    selector: 'account',
     template: `
         <div *ngIf="_account">
             <button class="btn btn-default" [routerLink]="['/Accounts']">Back</button><br />

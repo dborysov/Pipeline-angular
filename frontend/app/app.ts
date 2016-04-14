@@ -1,5 +1,7 @@
+/// <reference path="../node_modules/angular2/typings/browser.d.ts" />
+
 import 'angular2/bundles/angular2-polyfills.min';
-import {Component, View, provide, enableProdMode} from 'angular2/core';
+import {Component, provide, enableProdMode} from 'angular2/core';
 import {NgIf} from 'angular2/common';
 import {Router} from 'angular2/router';
 import {bootstrap} from 'angular2/bootstrap';
@@ -10,10 +12,8 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
 
 @Component({
     bindings: [AuthService],
-    selector: 'app',
-})
-@View({
     directives: [RouterOutlet, RouterLink, NgIf],
+    selector: 'app',
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
@@ -25,7 +25,8 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
             <router-outlet></router-outlet>
         </div>
     `,
-}) /* tslint:disable:object-literal-sort-keys */
+})
+/* tslint:disable:object-literal-sort-keys */
 @RouteConfig([
     { path: '/', component: GitAccountsComponent, as: 'Accounts' },
     { path: '/account/:login', component: GitAccountComponent, as: 'Account' },
