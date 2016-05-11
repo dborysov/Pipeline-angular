@@ -1,5 +1,5 @@
-import {Injectable} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
+import {Injectable} from '@angular/core';
+import {Http, Headers, Response} from '@angular/http';
 import {UserAuth} from '../Models/UserAuth';
 import {CurrentUser} from '../Models/CurrentUser';
 
@@ -47,7 +47,7 @@ export class AuthService {
         const requetParameters = {login: user.login, password: user.password};
 
         return this._http.post(`${this._baseUrl}/auth/login`, JSON.stringify(requetParameters), { headers })
-            .toPromise(Promise)
+            .toPromise()
             .then(response => this.handleSuccessLogin(response));
     }
 
@@ -56,7 +56,7 @@ export class AuthService {
         const requestParameters = { clientId: params.clientId, code: params.code, redirectUri: window.location.origin };
 
         return this._http.post(`${this._baseUrl}/auth/google`, JSON.stringify(requestParameters), { headers })
-            .toPromise(Promise)
+            .toPromise()
             .then(response => this.handleSuccessLogin(response));
     }
 
@@ -65,7 +65,7 @@ export class AuthService {
         const requetParameters = {login: user.login, password: user.password};
 
         return this._http.post(`${this._baseUrl}/auth/register`, JSON.stringify(requetParameters), { headers })
-            .toPromise(Promise)
+            .toPromise()
             .then(response => this.handleSuccessLogin(response));
     }
 
@@ -76,7 +76,7 @@ export class AuthService {
     private handleSuccessLogin(response: Response) {
         return new Promise((resolve, reject) => {
             if (response.status !== 200) {
-                reject(response.json()['message']);
+                reject(response.json().message);
             } else {
                 const parsedResp = <{ token: string }>response.json();
 

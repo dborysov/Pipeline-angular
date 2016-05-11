@@ -4,5 +4,10 @@
         "experimentalDecorators": true,
         "module": "commonjs",
         "target": "es5"
-    }
+    },
+
+    "files": [
+        "app/typings.d.ts",
+        "app/app.ts"
+    ]
 }

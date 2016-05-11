@@ -1,5 +1,5 @@
-import {Injectable} from 'angular2/core';
-import {Response} from 'angular2/http';
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
 import {JwtHttp} from '../Services/JwtHttpService';
 import {IUser} from '../Models/User';
 import 'rxjs/add/operator/map';
@@ -23,7 +23,7 @@ export class UsersService {
                 login: user.login,
                 updatedAt: new Date(user.updatedAt),
             });
-        }).toPromise(Promise);
+        }).toPromise();
     }
 }
 

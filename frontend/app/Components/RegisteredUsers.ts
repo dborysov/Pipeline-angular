@@ -1,15 +1,15 @@
-import {Component} from 'angular2/core';
-import {NgFor} from 'angular2/common';
-import {RouterLink, CanActivate} from 'angular2/router';
+import {Component} from '@angular/core';
+import {NgFor} from '@angular/common';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {GitService, UsersService, AuthService} from '../Services/Services';
 import {IUser} from '../Models/User';
 
 @Component({
     bindings: [UsersService],
-    directives: [NgFor, RouterLink],
+    directives: [NgFor, ROUTER_DIRECTIVES],
     selector: 'account',
     template: `
-        <button class="btn btn-default" [routerLink]="['/Accounts']">Back</button><br />
+        <a class="btn btn-default" [routerLink]="['/']">Back</a><br />
         <table class="table table-striped table-hover">
             <tr>
                 <th>Id</th>
@@ -17,7 +17,7 @@ import {IUser} from '../Models/User';
                 <th>Registration date</th>
                 <th>Update date</th>
             </tr>
-            <tr *ngFor="#user of _users">
+            <tr *ngFor="let user of _users">
                 <td>{{user.id}}</td>
                 <td>{{user.login}}</td>
                 <td>{{user.createdAt | date}}</td>
@@ -26,7 +26,7 @@ import {IUser} from '../Models/User';
         </table>
     `,
 })
-@CanActivate(() => AuthService.isAuthenticated)
+// @CanActivate(() => AuthService.isAuthenticated)
 export class RegisteredUsersComponent {
     private _users: IUser[] = [];
 

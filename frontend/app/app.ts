@@ -1,25 +1,26 @@
-/// <reference path="../node_modules/angular2/typings/browser.d.ts" />
+/// <reference path="../typings/browser.d.ts" />
 
-import 'angular2/bundles/angular2-polyfills.min';
-import {Component, provide, enableProdMode} from 'angular2/core';
-import {NgIf} from 'angular2/common';
-import {Router} from 'angular2/router';
-import {bootstrap} from 'angular2/platform/browser';
-import {HTTP_PROVIDERS, URLSearchParams} from 'angular2/http';
-import {ROUTER_PROVIDERS, RouterLink, RouterOutlet, RouteConfig, LocationStrategy, HashLocationStrategy} from 'angular2/router';
+import 'zone.js/dist/zone';
+import 'reflect-metadata';
+import 'rxjs/add/operator/toPromise';
+import {Component, provide, enableProdMode} from '@angular/core';
+import {NgIf, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {HTTP_PROVIDERS, URLSearchParams} from '@angular/http';
+import {ROUTER_PROVIDERS, Router, Routes, ROUTER_DIRECTIVES} from '@angular/router';
 import {GitAccountComponent, GitAccountsComponent, LoginComponent, RegisterComponent, RegisteredUsersComponent} from './Components/Components';
 import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
 
 @Component({
     bindings: [AuthService],
-    directives: [RouterOutlet, RouterLink, NgIf],
+    directives: [ROUTER_DIRECTIVES, NgIf],
     selector: 'app',
     template: `
         <div class="col-md-12">
             <h1 class="page-header text-center">Accounts</h1>
-                <a *ngIf="!isAuthenticated" class="pull-right margin-std" [routerLink]="['/Login']">Login</a>
+                <a *ngIf="!isAuthenticated" class="pull-right margin-std" [routerLink]="['/login']">Login</a>
                 <div class="margin-std" *ngIf="isAuthenticated">
-                    Hello, <b>{{ currentlyAuthenticatedUser.login }}</b>! (<a [routerLink]="['/RegisteredUsers']">show all registered users</a>)
+                    Hello, <b>{{ currentlyAuthenticatedUser.login }}</b>! (<a [routerLink]="['/registered-users']">show all registered users</a>)
                     <a href class="pull-right" (click)="logout($event)">Logout</a>
             </div>
             <router-outlet></router-outlet>
@@ -27,12 +28,12 @@ import {AuthService, JWT_HTTP_PROVIDER} from './Services/Services';
     `,
 })
 /* tslint:disable:object-literal-sort-keys */
-@RouteConfig([
-    { path: '/', component: GitAccountsComponent, as: 'Accounts' },
-    { path: '/account/:login', component: GitAccountComponent, as: 'Account' },
-    { path: '/registered-users', component: RegisteredUsersComponent, as: 'RegisteredUsers' },
-    { path: '/register', component: RegisterComponent, as: 'Register' },
-    { path: '/login', component: LoginComponent, as: 'Login' },
+@Routes([
+    { path: '/', component: GitAccountsComponent },
+    { path: '/account/:login', component: GitAccountComponent },
+    { path: '/registered-users', component: RegisteredUsersComponent },
+    { path: '/register', component: RegisterComponent },
+    { path: '/login', component: LoginComponent },
 ]) /* tslint:enable */
 class AppComponent {
     private _authService: AuthService;

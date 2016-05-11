@@ -1,5 +1,5 @@
-import {Injectable, provide} from 'angular2/core';
-import {Http, RequestOptionsArgs, Headers, ConnectionBackend, RequestOptions, XHRBackend} from 'angular2/http';
+import {Injectable, provide} from '@angular/core';
+import {Http, RequestOptionsArgs, Headers, ConnectionBackend, RequestOptions, XHRBackend} from '@angular/http';
 import {AuthService} from './AuthService';
 
 export class JwtHttp extends Http {

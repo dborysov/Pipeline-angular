@@ -1,7 +1,7 @@
 #Lab (educational app)
 
 ##Technologies used:
-- Angular 2.0.0-beta.15
+- Angular 2.0.0-rc.1
 - Bootstrap
 - Some stuff, used with gulp:
   - Browserify + tsify
@@ -29,5 +29,5 @@ If you are authenticated user, you are able to see the list of all registered us
 3. Run `npm i sails -g`;
 4. Run `npm i` and `gulp` in the `frontend` directory of application;
 5. Run `npm i` and `sails lift` in the `backend` directory of application;
-6. Host the `dist` folder in web server on 80 port;
-7. Open `<app_address>` in the browser.
+6. Host the `dist` folder in web server on 8080 port; OR run `gulp connect`
+7. Open `<app_address>:8080` in the browser.

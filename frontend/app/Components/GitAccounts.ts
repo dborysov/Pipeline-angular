@@ -1,12 +1,12 @@
-import {Component} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
-import {RouterLink} from 'angular2/router';
+import {Component} from '@angular/core';
+import {CORE_DIRECTIVES} from '@angular/common';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {GitService} from '../Services/GitService';
 import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     bindings: [GitService],
-    directives: [CORE_DIRECTIVES, RouterLink],
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
     selector: 'accounts',
     template: `
         <table class="table table-striped table-hover" *ngIf="_accounts && _accounts.length">
@@ -14,9 +14,9 @@ import {GitAccount} from '../Models/GitAccount';
                 <th class="col-md-2">Avatar</th>
                 <th>Login</th>
             </tr>
-            <tr *ngFor="#account of _accounts" [routerLink]="['/Account', {login: account.login}]">
+            <tr *ngFor="let account of _accounts">
                 <td><img width="50" src="{{account.avatarUrl}}" alt="avatar"></td>
-                <td>{{account.login}}</td>
+                <td><a [routerLink]="['/account', account.login]">{{account.login}}</a></td>
             </tr>
         </table>
     `,
@@ -26,6 +26,6 @@ export class GitAccountsComponent {
 
     constructor(gitService: GitService) {
         gitService.getUsers()
-                  .subscribe(accounts => this._accounts = accounts);
+                  .then(accounts => this._accounts = accounts);
     }
 }

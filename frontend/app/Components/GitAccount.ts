@@ -1,16 +1,16 @@
-import {Component} from 'angular2/core';
-import {NgIf} from 'angular2/common';
-import {RouteParams, RouterLink} from 'angular2/router';
+import {Component} from '@angular/core';
+import {NgIf} from '@angular/common';
+import {OnActivate, RouteSegment, RouteTree, ROUTER_DIRECTIVES} from '@angular/router';
 import {GitService} from '../Services/GitService';
 import {GitAccount} from '../Models/GitAccount';
 
 @Component({
     bindings: [GitService],
-    directives: [NgIf, RouterLink],
+    directives: [NgIf, ROUTER_DIRECTIVES],
     selector: 'account',
     template: `
         <div *ngIf="_account">
-            <button class="btn btn-default" [routerLink]="['/Accounts']">Back</button><br />
+            <a class="btn btn-default" [routerLink]="['/']">Back</a><br />
             <p class="margin-std">
                 <img width="100" src="{{_account.avatarUrl}}" alt="avatar">
                 <a href="{{_account.gitUrl}}">{{_account.login}}</a> ({{_account.email}})
@@ -18,12 +18,14 @@ import {GitAccount} from '../Models/GitAccount';
         </div>
     `,
 })
-export class GitAccountComponent {
+export class GitAccountComponent implements OnActivate {
     private _account: GitAccount;
 
-    constructor(params: RouteParams, gitService: GitService) {
-        gitService.getUser(params.get('login'))
-                  .subscribe(account => this._account = account);
+    constructor(private gitService: GitService) { }
 
+    routerOnActivate(curr: RouteSegment, prev?: RouteSegment, currTree?: RouteTree, prevTree?: RouteTree): void {
+        this.gitService
+            .getUser(curr.getParam('login'))
+            .then(account => this._account = account);
     }
 }

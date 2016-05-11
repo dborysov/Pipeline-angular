@@ -1,6 +1,6 @@
-import {Component} from 'angular2/core';
-import {FormBuilder, Validators, ControlGroup} from 'angular2/common';
-import {Router, CanActivate} from 'angular2/router';
+import {Component} from '@angular/core';
+import {FormBuilder, Validators, ControlGroup} from '@angular/common';
+import {Router} from '@angular/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
@@ -15,7 +15,7 @@ import {UserAuth} from '../Models/UserAuth';
         </form>
     `,
 })
-@CanActivate(() => !AuthService.isAuthenticated)
+//@CanActivate(() => !AuthService.isAuthenticated)
 export class RegisterComponent {
     private _registrationForm: ControlGroup;
     private _errorMessage: string;

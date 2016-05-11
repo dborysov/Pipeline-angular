@@ -15,8 +15,7 @@ gulp.task('compile-js', ['del-dist'], () =>
         .bundle()
         .pipe(source(config.fileNames.outputJs))
         .pipe(streamify(sourcemaps.init({ loadMaps: true })))
-            // minification doesn't work properly with angular's latest polyfill
-            // .pipe(streamify(uglify()))
+            .pipe(streamify(uglify()))
         .pipe(streamify(sourcemaps.write('.')))
         .pipe(gulp.dest(config.baseDir.dest))
     );

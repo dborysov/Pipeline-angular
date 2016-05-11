@@ -1,24 +1,24 @@
-import {Component} from 'angular2/core';
-import {FormBuilder, Validators, ControlGroup} from 'angular2/common';
-import {RouterLink, Router, CanActivate} from 'angular2/router';
+import {Component} from '@angular/core';
+import {FormBuilder, Validators, ControlGroup} from '@angular/common';
+import {ROUTER_DIRECTIVES, CanDeactivate, Router} from '@angular/router';
 import {AuthService} from '../Services/AuthService';
 import {UserAuth} from '../Models/UserAuth';
 
 @Component({
     bindings: [AuthService, FormBuilder],
-    directives: [RouterLink],
+    directives: [ROUTER_DIRECTIVES],
     template: `
         <form [ngFormModel]="_loginForm" (submit)="login($event)">
             <input ngControl="login" type="text" placeholder="Login">
             <input ngControl="password" type="password" placeholder="Password">
             <button class="btn btn-success-line" type="submit">Login</button>
             <div>{{ _errorMessage }}</div>
-            <a [routerLink]="['/Register']">Register</a>
+            <a [routerLink]="['/register']">Register</a>
         </form>
         <button class="btn btn-success" type="button" (click)="googleAuth()">Google</button>
     `,
 })
-@CanActivate(() => !AuthService.isAuthenticated)
+//@CanActivate(() => !AuthService.isAuthenticated)
 export class LoginComponent {
     private _loginForm: ControlGroup;
     private _errorMessage: string;
@@ -38,10 +38,11 @@ export class LoginComponent {
     private login(event: Event) {
         const formValues = this._loginForm.value;
 
-        this._authService.login(new UserAuth(formValues.login, formValues.password)).then(
-            v => { this._router.navigateByUrl('/'); },
-            err => { this._errorMessage = err.json().message; }
-        );
+        this._authService.login(new UserAuth(formValues.login, formValues.password))
+            .then(
+                v => { this._router.navigateByUrl('/'); },
+                err => { this._errorMessage = err.json().message; }
+            );
 
         event.preventDefault();
     }
