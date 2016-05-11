@@ -23,7 +23,7 @@ export class GitAccountComponent implements OnActivate {
 
     constructor(private gitService: GitService) { }
 
-    routerOnActivate(curr: RouteSegment, prev?: RouteSegment, currTree?: RouteTree, prevTree?: RouteTree): void {
+    public routerOnActivate(curr: RouteSegment, prev?: RouteSegment, currTree?: RouteTree, prevTree?: RouteTree): void {
         this.gitService
             .getUser(curr.getParam('login'))
             .then(account => this._account = account);
